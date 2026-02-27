@@ -1,0 +1,531 @@
+/* src/styles/global.css — Mobile-First Responsive Redesign v2 */
+
+/* ─── Design Tokens ──────────────────────────────────────────────── */
+:root {
+  --primary-color: #1a73e8;
+  --primary-dark: #0d47a1;
+  --primary-light: #e8f0fe;
+  --secondary-color: #6c757d;
+  --success-color: #1db954;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+  --light-color: #f0f4f8;
+  --dark-color: #1e293b;
+  --header-bg: #0a1628;
+  --header-accent: #1a3a5c;
+  --content-bg: #ffffff;
+  --footer-bg: #f0f4f8;
+  --text-color: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --card-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --card-radius: 0.875rem;
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Safe-area fallbacks (for iOS notch / home indicator) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+/* ─── Reset / Base ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Prevent font scaling in landscape on iOS */
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--light-color);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* 14.4px base on mobile — comfortable for trading data */
+  font-size: 0.9rem;
+  /* Smoother font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── App Shell ───────────────────────────────────────────────────── */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────── */
+.app-header {
+  background: linear-gradient(135deg, var(--header-bg) 0%, var(--header-accent) 100%);
+  color: #fff;
+  /* Account for iOS status bar (notch) */
+  padding: calc(0.75rem + var(--safe-top)) 1rem 0.75rem
+    calc(1rem + var(--safe-left));
+  padding-right: calc(1rem + var(--safe-right));
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 800px; /* Align with app-main */
+  margin: 0 auto;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(29, 185, 84, 0.18);
+  border: 1px solid rgba(29, 185, 84, 0.35);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6ee7a7;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.header-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success-color);
+  box-shadow: 0 0 6px var(--success-color);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.85); }
+}
+
+/* ─── Main Content ────────────────────────────────────────────────── */
+.app-main {
+  flex: 1;
+  padding: 1rem;
+  width: 100%;
+  max-width: 800px; /* Constrain width on desktop for better readability */
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ─── Dashboard Grid ──────────────────────────────────────────────── */
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Increased gap for better separation */
+}
+
+/* ─── Footer ──────────────────────────────────────────────────────── */
+.app-footer {
+  background-color: var(--footer-bg);
+  color: var(--text-muted);
+  /* Account for iOS home indicator */
+  padding: 0.75rem 1rem calc(0.75rem + var(--safe-bottom));
+  text-align: center;
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+/* ─── Card ────────────────────────────────────────────────────────── */
+.card {
+  background-color: var(--content-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 1rem;
+  box-shadow: var(--card-shadow);
+  /* Prevent tap flash on iOS */
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* Ensure content stays inside */
+}
+
+.card h3 {
+  margin: 0 0 0.875rem;
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--primary-color);
+  letter-spacing: 0.01em;
+}
+
+/* ─── Loading / Error ─────────────────────────────────────────────── */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.error-message {
+  color: #7f1d1d;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #fca5a5;
+  border-radius: 0.6rem;
+  background-color: #fef2f2;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+/* ─── Status Indicators ───────────────────────────────────────────── */
+.status-indicator-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap; /* Added for mobile wrap */
+}
+
+.status-indicators-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  width: 100%; /* Ensure it takes full width and wraps */
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.875rem;
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  flex-shrink: 1; /* Allow to shrink if necessary, but wrapping is preferred */
+  /* ≥44px touch target on mobile */
+  min-height: 2.75rem;
+  transition: background 0.15s ease;
+}
+
+.status-item:hover {
+  background: var(--primary-light);
+  border-color: rgba(26, 115, 232, 0.3);
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  flex-shrink: 0;
+}
+
+.status-indicator.healthy    {
+  background-color: var(--success-color);
+  box-shadow: 0 0 6px var(--success-color);
+}
+.status-indicator.unhealthy  {
+  background-color: var(--danger-color);
+  box-shadow: 0 0 6px var(--danger-color);
+}
+.status-indicator.initializing {
+  background-color: var(--warning-color);
+  animation: pulse 1.5s infinite;
+}
+
+.status-label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-color);
+}
+
+/* ─── Asset Dashboard Grid ────────────────────────────────────────── */
+.asset-dashboard-grid {
+  display: grid;
+  /* 2-col on mobile, but handle small screens */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.625rem;
+}
+
+.asset-metric {
+  background: linear-gradient(145deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.625rem;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  /* ≥ 72px touch target on mobile */
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.asset-metric:active {
+  transform: scale(0.98);
+}
+
+.asset-metric:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  border-color: rgba(26, 115, 232, 0.25);
+}
+
+.asset-metric-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.asset-metric-value {
+  /* Mobile: bump up for legibility on a phone */
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--dark-color);
+  line-height: 1.2;
+  /* Prevent overflow for long numbers */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.asset-metric-value.positive { color: var(--success-color); }
+.asset-metric-value.negative { color: var(--danger-color); }
+.asset-metric-value.neutral  { color: var(--dark-color); }
+
+/* ─── Market Monitor Table ────────────────────────────────────────── */
+.table-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 0.5rem;
+  /* Remove complex gradient which can cause rendering issues on some mobile browsers */
+}
+
+.market-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  /* Ensure minimum is comfortable on phone but not too wide */
+  min-width: 280px;
+}
+
+.market-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.market-table th {
+  background-color: var(--header-bg);
+  color: #cbd5e1;
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+
+.market-table th:first-child { border-radius: 0.4rem 0 0 0; }
+.market-table th:last-child  { border-radius: 0 0.4rem 0 0; }
+
+.market-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.12s ease;
+}
+
+.market-table tbody tr:last-child { border-bottom: none; }
+.market-table tbody tr:hover { background-color: #f8fafc; }
+
+.market-table td {
+  padding: 0.65rem 0.75rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.market-table td:first-child {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 0.85rem;
+}
+
+/* Timestamp column: hidden on phone, visible on tablet+ */
+.market-table .col-time {
+  display: none;
+}
+
+/* ─── Responsive: Tablet (≥ 768px) ───────────────────────────────── */
+@media (min-width: 768px) {
+  body { font-size: 0.925rem; }
+
+  .app-header {
+    padding-top: calc(0.9rem + var(--safe-top));
+    padding-bottom: 0.9rem;
+    padding-left: calc(1.5rem + var(--safe-left));
+    padding-right: calc(1.5rem + var(--safe-right));
+  }
+  .app-header h1 { font-size: 1.35rem; }
+
+  .header-badge {
+    padding: 0.25rem 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .app-main {
+    padding: 1.25rem calc(1.5rem + var(--safe-right))
+      1.25rem calc(1.5rem + var(--safe-left));
+  }
+
+  /* 2-col: Status spans full width on top */
+  .dashboard-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.125rem;
+  }
+  .dashboard-grid > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .card { padding: 1.25rem 1.5rem; }
+  .card h3 { font-size: 1.05rem; }
+
+  .asset-dashboard-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+  }
+
+  .asset-metric {
+    padding: 1rem;
+    min-height: 80px;
+  }
+
+  .asset-metric-value { font-size: 1.3rem; }
+  .asset-metric-label { font-size: 0.74rem; }
+
+  .status-item {
+    padding: 0.5rem 1rem;
+  }
+
+  .status-label { font-size: 0.88rem; }
+
+  .market-table { font-size: 0.88rem; }
+  .market-table th,
+  .market-table td { padding: 0.75rem 1rem; }
+
+  /* Restore timestamp column on tablet */
+  .market-table .col-time {
+    display: table-cell;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+}
+
+/* ─── Responsive: Desktop (≥ 1200px) ─────────────────────────────── */
+@media (min-width: 1200px) {
+  body { font-size: 0.95rem; }
+
+  .app-header {
+    padding-left: calc(2rem + var(--safe-left));
+    padding-right: calc(2rem + var(--safe-right));
+  }
+  .app-header h1 { font-size: 1.6rem; }
+
+  .app-main {
+    padding: 1.75rem calc(2rem + var(--safe-right))
+      1.75rem calc(2rem + var(--safe-left));
+  }
+
+  /* 3-column desktop layout */
+  .dashboard-grid {
+    grid-template-columns: minmax(240px, 1fr) minmax(320px, 1.8fr) minmax(360px, 2fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .dashboard-grid > :first-child {
+    grid-column: auto;
+  }
+
+  .card { padding: 1.5rem; }
+  .card h3 { font-size: 1.15rem; }
+
+  .asset-dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .asset-metric-value { font-size: 1.45rem; }
+  .asset-metric { padding: 1rem 1.125rem; }
+
+  .market-table { font-size: 0.92rem; }
+  .market-table th,
+  .market-table td { padding: 0.85rem 1.125rem; }
+}
+
+/* ─── Very small phones (< 375px) ────────────────────────────────── */
+@media (max-width: 374px) {
+  .app-header h1 { font-size: 0.95rem; }
+
+  /* 1 column on truly tiny screens */
+  .asset-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-metric-value { font-size: 1rem; }
+
+  .market-table { font-size: 0.78rem; }
+  .market-table th,
+  .market-table td { padding: 0.5rem; }
+}
+
+/* ─── Accessibility & Focus ───────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ─── Reduced Motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
